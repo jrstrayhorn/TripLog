@@ -1,14 +1,21 @@
 ﻿using System;
 using TripLog.Models;
+using TripLog.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
-namespace TripLog
+namespace TripLog.Views
 {
     public class DetailPage : ContentPage
     {
+        DetailViewModel _vm {
+            get { return BindingContext as DetailViewModel; }
+        }
+
         public DetailPage(TripLogEntry entry)
         {
+            BindingContext = new DetailViewModel(entry);
+
             Title = "Entry Details";
 
             var mainLayout = new Grid
@@ -29,39 +36,39 @@ namespace TripLog
             var map = new Map();
 
             // center the map around the log entry's location
-            map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(entry.Latitude, entry.Longitude), Distance.FromMiles(.5)));
+            map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(_vm.Entry.Latitude, _vm.Entry.Longitude), Distance.FromMiles(.5)));
 
             // place a pin on the map for the log entry's location
             map.Pins.Add(new Pin
             {
                 Type = PinType.Place,
-                Label = entry.Title,
-                Position = new Position(entry.Latitude, entry.Longitude)
+                Label = _vm.Entry.Title,
+                Position = new Position(_vm.Entry.Latitude, _vm.Entry.Longitude)
             });
 
             var title = new Label
             {
                 HorizontalOptions = LayoutOptions.Center
             };
-            title.Text = entry.Title;
+            title.SetBinding(Label.TextProperty, "Entry.Title");
 
             var date = new Label
             {
                 HorizontalOptions = LayoutOptions.Center
             };
-            date.Text = entry.Date.ToString("M");
+            date.SetBinding(Label.TextProperty, "Entry.Date", stringFormat:"{0:M}");
 
             var rating = new Label
             {
                 HorizontalOptions = LayoutOptions.Center
             };
-            rating.Text = $"{entry.Rating} star rating";
+            rating.SetBinding(Label.TextProperty, "Entry.Rating", stringFormat: "{0} star rating");
 
             var notes = new Label
             {
                 HorizontalOptions = LayoutOptions.Center
             };
-            notes.Text = entry.Notes;
+            notes.SetBinding(Label.TextProperty, "Entry.Notes");
 
             var details = new StackLayout
             {

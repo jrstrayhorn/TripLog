@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using TripLog.Views;
+using Xamarin.Forms;
 
 namespace TripLog
 {

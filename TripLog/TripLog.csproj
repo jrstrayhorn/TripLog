@@ -39,13 +39,19 @@
       <DependentUpon>TripLogPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MainPage.cs" />
     <Compile Include="Models\TripLogEntry.cs" />
-    <Compile Include="NewEntryPage.cs" />
-    <Compile Include="DetailPage.cs" />
+    <Compile Include="Views\MainPage.cs" />
+    <Compile Include="Views\DetailPage.cs" />
+    <Compile Include="Views\NewEntryPage.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\DetailViewModel.cs" />
+    <Compile Include="ViewModels\NewEntryViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">
