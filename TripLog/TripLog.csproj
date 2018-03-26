@@ -47,11 +47,14 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\DetailViewModel.cs" />
     <Compile Include="ViewModels\NewEntryViewModel.cs" />
+    <Compile Include="Services\INavService.cs" />
+    <Compile Include="Services\XamarinFormsNavService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Views\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

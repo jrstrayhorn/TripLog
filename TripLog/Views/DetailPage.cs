@@ -1,5 +1,6 @@
 ﻿using System;
 using TripLog.Models;
+using TripLog.Services;
 using TripLog.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -8,43 +9,35 @@ namespace TripLog.Views
 {
     public class DetailPage : ContentPage
     {
-        DetailViewModel _vm {
-            get { return BindingContext as DetailViewModel; }
+        private DetailViewModel _vm 
+        {
+            get 
+            { 
+                return BindingContext as DetailViewModel; 
+            }
         }
 
-        public DetailPage(TripLogEntry entry)
+        private readonly Map _map;
+
+        public DetailPage()
         {
-            BindingContext = new DetailViewModel(entry);
+            BindingContextChanged += (sender, args) =>
+            {
+                if (_vm == null) return;
+
+                _vm.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == "Entry")
+                        updateMap();
+                };
+            };
+
+            BindingContext = new DetailViewModel(DependencyService.Get<INavService>());
 
             Title = "Entry Details";
 
-            var mainLayout = new Grid
-            {
-                RowDefinitions = {
-                    new RowDefinition {
-                        Height = new GridLength(4, GridUnitType.Star)
-                    },
-                    new RowDefinition {
-                        Height = GridLength.Auto
-                    },
-                    new RowDefinition {
-                        Height = new GridLength(1, GridUnitType.Star)
-                    }
-                }
-            };
-
-            var map = new Map();
-
-            // center the map around the log entry's location
-            map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(_vm.Entry.Latitude, _vm.Entry.Longitude), Distance.FromMiles(.5)));
-
-            // place a pin on the map for the log entry's location
-            map.Pins.Add(new Pin
-            {
-                Type = PinType.Place,
-                Label = _vm.Entry.Title,
-                Position = new Position(_vm.Entry.Latitude, _vm.Entry.Longitude)
-            });
+            //var map = new Map();
+            _map = new Map();
 
             var title = new Label
             {
@@ -56,7 +49,7 @@ namespace TripLog.Views
             {
                 HorizontalOptions = LayoutOptions.Center
             };
-            date.SetBinding(Label.TextProperty, "Entry.Date", stringFormat:"{0:M}");
+            date.SetBinding(Label.TextProperty, "Entry.Date", stringFormat: "{0:M}");
 
             var rating = new Label
             {
@@ -84,13 +77,48 @@ namespace TripLog.Views
                 Opacity = .8
             };
 
-            mainLayout.Children.Add(map);
+            var mainLayout = new Grid
+            {
+                RowDefinitions = {
+                    new RowDefinition {
+                        Height = new GridLength(4, GridUnitType.Star)
+                    },
+                    new RowDefinition {
+                        Height = GridLength.Auto
+                    },
+                    new RowDefinition {
+                        Height = new GridLength(1, GridUnitType.Star)
+                    }
+                }
+            };
+
+            mainLayout.Children.Add(_map);
             mainLayout.Children.Add(detailsBg, 0, 1);
             mainLayout.Children.Add(details, 0, 1);
 
-            Grid.SetRowSpan(map, 3);
+            Grid.SetRowSpan(_map, 3);
 
             Content = mainLayout;
+        }
+
+        private void updateMap() 
+        {
+            if (_vm.Entry == null)
+                return;
+            
+            // place a pin on the map for the log entry's location
+            var position = new Position(_vm.Entry.Latitude, _vm.Entry.Longitude);
+
+            // center the map around the log entry's location
+            _map.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMiles(.5)));
+
+            _map.Pins.Add(new Pin
+            {
+                Type = PinType.Place,
+                Label = _vm.Entry.Title,
+                Position = position
+            });
+
         }
     }
 }

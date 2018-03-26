@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TripLog.Models;
+using TripLog.Services;
 using TripLog.ViewModels;
 using Xamarin.Forms;
 
@@ -8,19 +9,21 @@ namespace TripLog.Views
 {
     public class MainPage : ContentPage
     {
+        public MainViewModel _vm
+        {
+            get { return BindingContext as MainViewModel; }
+        }
+
         public MainPage()
         {
-            BindingContext = new MainViewModel();
+            BindingContext = new MainViewModel(DependencyService.Get<INavService>());
 
             var newButton = new ToolbarItem
             {
                 Text = "New"
             };
 
-            newButton.Clicked += (sender, e) =>
-            {
-                Navigation.PushAsync(new NewEntryPage());
-            };
+            newButton.SetBinding(ToolbarItem.CommandProperty, "NewCommand");
 
             ToolbarItems.Add(newButton);
 
@@ -37,13 +40,22 @@ namespace TripLog.Views
 
             entries.SetBinding(ListView.ItemsSourceProperty, "LogEntries");
 
-            entries.ItemTapped += async (sender, e) =>
+            entries.ItemTapped += (sender, e) =>
             {
                 var item = (TripLogEntry)e.Item;
-                await Navigation.PushAsync(new DetailPage(item));
+                _vm.ViewCommand.Execute(item);
             };
 
             Content = entries;
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            //Initialize MainViewModel
+            if (_vm != null)
+                await _vm.Init();
         }
     }
 }

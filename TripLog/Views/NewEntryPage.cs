@@ -1,4 +1,5 @@
 ﻿using System;
+using TripLog.Services;
 using TripLog.ViewModels;
 using Xamarin.Forms;
 
@@ -8,17 +9,16 @@ namespace TripLog.Views
     {
         public NewEntryPage()
         {
-            BindingContext = new NewEntryViewModel();
+            BindingContext = new NewEntryViewModel(DependencyService.Get<INavService>());
+
+            Title = "New Entry";
 
             var save = new ToolbarItem
             {
                 Text = "Save"
             };
-            save.SetBinding(ToolbarItem.CommandProperty, "SaveCommand");
-
             ToolbarItems.Add(save);
-
-            Title = "New Entry";
+            save.SetBinding(ToolbarItem.CommandProperty, "SaveCommand");
 
             // form fields
             var title = new EntryCell

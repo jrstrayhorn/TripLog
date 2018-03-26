@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using TripLog.Models;
+using TripLog.Services;
 using Xamarin.Forms;
 
 namespace TripLog.ViewModels
@@ -13,17 +15,22 @@ namespace TripLog.ViewModels
         int _rating; public int Rating { get { return _rating; } set { _rating = value; OnPropertyChanged(); } }
         string _notes; public string Notes { get { return _notes; } set { _notes = value; OnPropertyChanged(); } }
 
-        public NewEntryViewModel()
+        public override async Task Init() 
+        {
+            
+        }
+
+        public NewEntryViewModel(INavService navService) : base(navService)
         {
             Date = DateTime.Today;
             Rating = 1;
         }
 
-        Command _saveCommand;
+        private Command _saveCommand;
         public Command SaveCommand
         {
             get {
-                return _saveCommand ?? (_saveCommand = new Command(ExecuteSaveCommand, CanSave));
+                return _saveCommand ?? (_saveCommand = new Command(async () => await executeSaveCommand(), CanSave));
             }
         }
 
@@ -32,7 +39,7 @@ namespace TripLog.ViewModels
             return !string.IsNullOrWhiteSpace(Title);
         }
 
-        private void ExecuteSaveCommand()
+        private async Task executeSaveCommand()
         {
             var newItem = new TripLogEntry
             {
@@ -44,6 +51,8 @@ namespace TripLog.ViewModels
                 Notes = this.Notes
             };
             // TODO: Implement logic to persist Entry in a later chapter.
+
+            await NavService.GoBack();
         }
     }
 }
