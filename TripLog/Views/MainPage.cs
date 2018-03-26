@@ -16,7 +16,7 @@ namespace TripLog.Views
 
         public MainPage()
         {
-            BindingContext = new MainViewModel(DependencyService.Get<INavService>());
+            //BindingContext = new MainViewModel(DependencyService.Get<INavService>());
 
             var newButton = new ToolbarItem
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using TripLog.iOS.Modules;
 using UIKit;
 
 namespace TripLog.iOS
@@ -14,7 +15,7 @@ namespace TripLog.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             Xamarin.FormsMaps.Init();
-            LoadApplication(new App());
+            LoadApplication(new App(new TripLogPlatformModule()));
 
             return base.FinishedLaunching(app, options);
         }

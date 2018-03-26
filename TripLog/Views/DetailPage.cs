@@ -32,7 +32,7 @@ namespace TripLog.Views
                 };
             };
 
-            BindingContext = new DetailViewModel(DependencyService.Get<INavService>());
+            //BindingContext = new DetailViewModel(DependencyService.Get<INavService>());
 
             Title = "Entry Details";
 

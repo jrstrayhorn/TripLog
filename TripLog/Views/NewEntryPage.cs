@@ -9,7 +9,7 @@ namespace TripLog.Views
     {
         public NewEntryPage()
         {
-            BindingContext = new NewEntryViewModel(DependencyService.Get<INavService>());
+            //BindingContext = new NewEntryViewModel(DependencyService.Get<INavService>());
 
             Title = "New Entry";
 
