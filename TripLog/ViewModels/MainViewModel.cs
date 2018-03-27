@@ -24,19 +24,21 @@ namespace TripLog.ViewModels
         readonly IBlobCache _cache;
 
         public MainViewModel(INavService navService, 
-                             ITripLogDataService tripLogService) : base(navService)
+                             ITripLogDataService tripLogService,
+                             IBlobCache cache) : base(navService)
         {
             _tripLogService = tripLogService;
+            _cache = cache;
 
             LogEntries = new ObservableCollection<TripLogEntry>();
         }
 
 		public override async Task Init()
 		{
-            await LoadEntries();
+            LoadEntries();
 		}
 
-        async Task LoadEntries()
+        void LoadEntries()
         {
             if (IsBusy)
                 return;
@@ -45,9 +47,14 @@ namespace TripLog.ViewModels
 
             try
             {
-                var entries = await _tripLogService.GetEntriesAsync();
+                // load from local cache and then immediately load from API
+                _cache.GetAndFetchLatest("entries",
+                                        async () => await _tripLogService.GetEntriesAsync())
+                      .Subscribe(entries =>
+                      {
+                          LogEntries = new ObservableCollection<TripLogEntry>(entries);
+                      });
 
-                LogEntries = new ObservableCollection<TripLogEntry>(entries);
             }
             finally {
                 IsBusy = false;
