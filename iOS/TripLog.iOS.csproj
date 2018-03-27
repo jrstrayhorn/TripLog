@@ -121,6 +121,7 @@
     <Folder Include="Resources\" />
     <Folder Include="Services\" />
     <Folder Include="Modules\" />
+    <Folder Include="Renderers\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -135,6 +136,14 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="Modules\TripLogPlatformModule.cs" />
+    <Compile Include="Renderers\DatePickerEntryCellRenderer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\star_1.png" />
+    <BundleResource Include="Resources\stars_2.png" />
+    <BundleResource Include="Resources\stars_3.png" />
+    <BundleResource Include="Resources\stars_4.png" />
+    <BundleResource Include="Resources\stars_5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.280555\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.280555\build\netstandard1.0\Xamarin.Forms.targets')" />

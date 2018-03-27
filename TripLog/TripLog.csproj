@@ -53,6 +53,9 @@
     <Compile Include="Services\ILocationService.cs" />
     <Compile Include="Modules\TripLogCoreModule.cs" />
     <Compile Include="Modules\TripLogNavModule.cs" />
+    <Compile Include="Controls\DatePickerEntryCell.cs" />
+    <Compile Include="Converters\ReverseBooleanConverter.cs" />
+    <Compile Include="Converters\RatingToStarImageNameConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -60,6 +63,8 @@
     <Folder Include="Views\" />
     <Folder Include="Services\" />
     <Folder Include="Modules\" />
+    <Folder Include="Controls\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

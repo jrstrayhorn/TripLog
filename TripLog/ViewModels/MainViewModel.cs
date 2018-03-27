@@ -31,10 +31,18 @@ namespace TripLog.ViewModels
 
         async Task LoadEntries()
         {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
             LogEntries.Clear();
 
-            await Task.Factory.StartNew(() =>
-            {
+            // todo: Remove this in Chapter 6
+            await Task.Delay(3000);
+
+            //await Task.Factory.StartNew(() =>
+            //{
                 LogEntries.Add(new TripLogEntry
                 {
                     Title = "Washington Monument",
@@ -64,7 +72,9 @@ namespace TripLog.ViewModels
                     Latitude = 37.8268,
                     Longitude = -122.4798
                 });
-            });
+            //});
+
+            IsBusy = false;
         }
 
         Command<TripLogEntry> _viewCommand;

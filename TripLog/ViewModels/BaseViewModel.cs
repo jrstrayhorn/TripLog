@@ -25,6 +25,23 @@ namespace TripLog.ViewModels
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        bool _isBusy;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set
+            {
+                _isBusy = value;
+                OnPropertyChanged();
+                OnIsBusyChanged();
+            }
+        }
+
+        protected virtual void OnIsBusyChanged()
+        {
+            
+        }
     }
 
     public abstract class BaseViewModel<TParameter> : BaseViewModel

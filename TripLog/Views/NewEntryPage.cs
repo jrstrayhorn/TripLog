@@ -1,4 +1,5 @@
 ﻿using System;
+using TripLog.Controls;
 using TripLog.Services;
 using TripLog.ViewModels;
 using Xamarin.Forms;
@@ -41,11 +42,11 @@ namespace TripLog.Views
             };
             longitude.SetBinding(EntryCell.TextProperty, "Longitude", BindingMode.TwoWay);
 
-            var date = new EntryCell
+            var date = new DatePickerEntryCell
             {
                 Label = "Date"
             };
-            date.SetBinding(EntryCell.TextProperty, "Date", BindingMode.TwoWay, stringFormat:"{0:d}");
+            date.SetBinding(DatePickerEntryCell.DateProperty, "Date", BindingMode.TwoWay);
 
             var rating = new EntryCell
             {

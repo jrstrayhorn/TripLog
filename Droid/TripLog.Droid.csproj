@@ -159,6 +159,11 @@
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable\star_1.png" />
+    <AndroidResource Include="Resources\drawable\stars_2.png" />
+    <AndroidResource Include="Resources\drawable\stars_3.png" />
+    <AndroidResource Include="Resources\drawable\stars_4.png" />
+    <AndroidResource Include="Resources\drawable\stars_5.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using TripLog.Converters;
 using TripLog.Models;
 using TripLog.Services;
 using TripLog.ViewModels;
@@ -51,11 +52,11 @@ namespace TripLog.Views
             };
             date.SetBinding(Label.TextProperty, "Entry.Date", stringFormat: "{0:M}");
 
-            var rating = new Label
+            var rating = new Image
             {
                 HorizontalOptions = LayoutOptions.Center
             };
-            rating.SetBinding(Label.TextProperty, "Entry.Rating", stringFormat: "{0} star rating");
+            rating.SetBinding(Image.SourceProperty, "Entry.Rating", converter: new RatingToStarImageNameConverter());
 
             var notes = new Label
             {
