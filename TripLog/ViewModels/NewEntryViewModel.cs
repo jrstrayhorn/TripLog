@@ -23,10 +23,15 @@ namespace TripLog.ViewModels
         }
 
         readonly ILocationService _locService;
+        readonly ITripLogDataService _tripLogService;
 
-        public NewEntryViewModel(INavService navService, ILocationService locService) : base(navService)
+        public NewEntryViewModel(INavService navService, 
+                                 ILocationService locService,
+                                 ITripLogDataService tripLogService) 
+            : base(navService)
         {
             _locService = locService;
+            _tripLogService = tripLogService;
 
             Date = DateTime.Today;
             Rating = 1;
@@ -47,6 +52,11 @@ namespace TripLog.ViewModels
 
         private async Task executeSaveCommand()
         {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
             var newItem = new TripLogEntry
             {
                 Title = this.Title,
@@ -56,9 +66,15 @@ namespace TripLog.ViewModels
                 Rating = this.Rating,
                 Notes = this.Notes
             };
-            // TODO: Implement logic to persist Entry in a later chapter.
 
-            await NavService.GoBack();
+            try
+            {
+                await _tripLogService.AddEntryAsync(newItem);
+                await NavService.GoBack();
+            }
+            finally {
+                IsBusy = false;
+            }
         }
     }
 }

@@ -1,8 +1,17 @@
 ﻿using System;
+using Newtonsoft.Json;
+
 namespace TripLog.Models
 {
     public class TripLogEntry
     {
+        [JsonProperty("id")]
+        public string Id
+        {
+            get;
+            set;
+        }
+
         public string Title
         {
             get;

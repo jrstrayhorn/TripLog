@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Akavache;
 using TripLog.Models;
 using TripLog.Services;
 using Xamarin.Forms;
@@ -19,8 +20,14 @@ namespace TripLog.ViewModels
             }
         }
 
-        public MainViewModel(INavService navService) : base(navService)
+        readonly ITripLogDataService _tripLogService;
+        readonly IBlobCache _cache;
+
+        public MainViewModel(INavService navService, 
+                             ITripLogDataService tripLogService) : base(navService)
         {
+            _tripLogService = tripLogService;
+
             LogEntries = new ObservableCollection<TripLogEntry>();
         }
 
@@ -36,45 +43,15 @@ namespace TripLog.ViewModels
 
             IsBusy = true;
 
-            LogEntries.Clear();
+            try
+            {
+                var entries = await _tripLogService.GetEntriesAsync();
 
-            // todo: Remove this in Chapter 6
-            await Task.Delay(3000);
-
-            //await Task.Factory.StartNew(() =>
-            //{
-                LogEntries.Add(new TripLogEntry
-                {
-                    Title = "Washington Monument",
-                    Notes = "Amazing!",
-                    Rating = 3,
-                    Date = new DateTime(2015, 2, 5),
-                    Latitude = 38.8895,
-                    Longitude = -77.0352
-                });
-
-                LogEntries.Add(new TripLogEntry
-                {
-                    Title = "Statue of Liberty",
-                    Notes = "Inspiring!",
-                    Rating = 4,
-                    Date = new DateTime(2015, 4, 13),
-                    Latitude = 40.6892,
-                    Longitude = -74.0444
-                });
-
-                LogEntries.Add(new TripLogEntry
-                {
-                    Title = "Golden Gate Bridge",
-                    Notes = "Foggy, but beautiful",
-                    Rating = 5,
-                    Date = new DateTime(2015, 4, 26),
-                    Latitude = 37.8268,
-                    Longitude = -122.4798
-                });
-            //});
-
-            IsBusy = false;
+                LogEntries = new ObservableCollection<TripLogEntry>(entries);
+            }
+            finally {
+                IsBusy = false;
+            }
         }
 
         Command<TripLogEntry> _viewCommand;
