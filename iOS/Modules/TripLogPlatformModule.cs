@@ -12,6 +12,10 @@ namespace TripLog.iOS.Modules
             Bind<ILocationService>()
                 .To<LocationService>()
                 .InSingletonScope();
+
+            Bind<IAuthService>()
+                .To<AuthService>()
+                .InSingletonScope();
         }
     }
 }
