@@ -22,6 +22,11 @@ namespace TripLog.ViewModels
             
         }
 
+        public override async Task Init()
+        {
+            throw new EntryNotProvidedException();
+        }
+
         public override async Task Init (TripLogEntry logEntry) 
         {
             Entry = logEntry;

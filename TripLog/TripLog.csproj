@@ -65,6 +65,7 @@
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="Views\SignInPage.cs" />
+    <Compile Include="EntryNotProvidedException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
