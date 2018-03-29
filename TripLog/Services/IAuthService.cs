@@ -5,6 +5,6 @@ namespace TripLog.Services
 {
     public interface IAuthService
     {
-        Task SignInAsync(string clientId, Uri authUrl, Uri callbackUrl, Action<string> tokenCallback, Action<string> errorCallback);
+        Task SignInAsync(Action<string> tokenCallback, Action<string> errorCallback);
     }
 }

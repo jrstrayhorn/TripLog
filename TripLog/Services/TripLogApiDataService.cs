@@ -27,15 +27,15 @@ namespace TripLog.Services
 
         struct IdProviderToken
         {
-            [JsonProperty("access_token")]
-            public string AccessToken { get; set; }
+            [JsonProperty("id_token")]
+            public string IdToken { get; set; }
         }
 
         public async Task<TripLogApiAuthToken> GetAuthTokenAsync(string idProvider, string idProviderToken)
         {
             var token = new IdProviderToken
             {
-                AccessToken = idProviderToken
+                IdToken = idProviderToken
             };
 
             var url = new Uri(_baseUri, string.Format(".auth/login/{0}", idProvider));

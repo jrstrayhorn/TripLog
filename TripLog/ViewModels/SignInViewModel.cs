@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TripLog.Services;
+using Xamarin.Auth;
 using Xamarin.Forms;
 
 namespace TripLog.ViewModels
@@ -30,10 +31,9 @@ namespace TripLog.ViewModels
 
         async Task ExecuteSignInCommand()
         {
+            // NEW Client ID: 409009394217-p3cu602apd7vkaucmg4p1vijhqm4is6f.apps.googleusercontent.com
+            // OLD Client ID: 409009394217-11dcm7db57c38qp5q47jj4p8gfmi88p1.apps.googleusercontent.com
             await _authService.SignInAsync(
-                "409009394217-11dcm7db57c38qp5q47jj4p8gfmi88p1.apps.googleusercontent.com",
-                new Uri("https://accounts.google.com/o/oauth2/auth"),
-                new Uri("https://triplogjr.azurewebsites.net/.auth/login/google/callback"),
                 tokenCallback: async t =>
                 {
 
@@ -51,7 +51,10 @@ namespace TripLog.ViewModels
                 {
                     // todo: handle invalid auth here
                 });
+                
+
         }
+
 
         public async override Task Init()
         {
